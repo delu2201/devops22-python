@@ -6,9 +6,6 @@
 # printing()
 
 #2
-from lib2to3.pgen2.token import NEWLINE
-
-
 def reverse(arg=None):
     string = "abcdefgh"
     if arg == "reverse=True":
@@ -19,5 +16,4 @@ def reverse(arg=None):
         for i in range(len(string)):
             print(string[i], end="")
 
-print(NEWLINE)
-reverse()
+reverse("reverse=True")
