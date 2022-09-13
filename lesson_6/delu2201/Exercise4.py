@@ -9,9 +9,8 @@ list_of_names = random.choices(names, k = 50)
 # print(list_of_names)
 
 #2
-queue_of_names = deque([], maxlen = 10)
-print(queue_of_names)
-exit()
+queue_of_names = deque(maxlen = 10)
+
 for i in range(10):
     queue_of_names.append(list_of_names[i])
 
