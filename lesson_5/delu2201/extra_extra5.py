@@ -1,12 +1,12 @@
-#1
-string_1 = input("Första strängen: ")
-string_2 = input("Andra strängen: ")
+# #1
+# string_1 = input("Första strängen: ")
+# string_2 = input("Andra strängen: ")
 
-print(f'"{string_1}"\n"{string_2}"')
+# print(f'"{string_1}"\n"{string_2}"')
 
-#2
-new_string = ("'" + string_1 + "'" + "\n" + "\"" + string_2 + "\"")
-print(new_string)
+# #2
+# new_string = ("'" + string_1 + "'" + "\n" + "\"" + string_2 + "\"")
+# print(new_string)
 
 #3
 tal_1 = int(input("Första talet: "))
