@@ -33,10 +33,10 @@ class Square:
         self.side = side
         
     def area(self):
-        return self.side ** 2
+        return float(self.side ** 2)
 
     def circumference(self):
-         return self.side * 4
+         return self.side * 4.0
 
 if __name__ == '__main__':
     my_object = Square(side=2)
@@ -58,17 +58,20 @@ from turtle import circle, color
 class Circle:
     """Class circle for holding user created circles"""
     #Class Variable
-    color = "grey"
+    #color = "grey"
     #Data members
-    def __init__(self, diagonal) -> None:
+    def __init__(self, diagonal, color = "grey") -> None:
         self.diagonal = diagonal
+        self.color = color
+        self.area = self.calc_area
+        self.circumference = self.calc_circumference
 
     #instance methods    
-    def area(self):
+    def calc_area(self):
         result_area = pi * self.diagonal**2
         return result_area
     
-    def circumference(self):
+    def calc_circumference(self):
         result_circ = pi * self.diagonal
         return result_circ
     
