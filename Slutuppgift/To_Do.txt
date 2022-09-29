@@ -1,0 +1,47 @@
+Slutuppgift: 
+
+To Do: 
+
+För GODKÄNT: 
+
+Indata: 
+ - Fil med 10 matvaror. JSON / CSV
+	- importera till databas.
+	- Kontroll / felhantering filepath.
+ 
+ - Input för att addera en vara till varukorg.
+  
+ - Input för att ta bort en vara från varukorg.
+ - slutföra beställning så att varukorgen töms?  
+ 
+ 
+ Databas: 
+ Tabell för möjliga varor:
+	- Typ av vara
+	- antal
+	- lista historiska ordrar 
+ Tabell som håller beställningar? (lista, tuple!?!) 
+ 
+ Klasser: 
+ Varukorgen 
+ 
+ 
+ Funktioner: 
+ 1. Addera lista med matvaror till databasen.
+	- Skapa CSV-fil med matvaror.
+	- importera dessa med CSV-reader till databasen. 
+	
+2. Lista valbara varor från databas. 
+
+
+3. Addera matvaror till varukorg.
+	- Måste korgen (Classobject) ha samtliga items? eller sparas som lista/tuple/dict? 
+	- lista möjliga varor eller be om en sträng från användaren? 
+	
+	
+Länkar använda: 
+Tabulate: https://stackoverflow.com/questions/9535954/printing-lists-as-tabular-data
+	
+	
+ 
+ 
