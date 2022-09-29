@@ -7,7 +7,8 @@ def list_products():
     db_contents = cursor.fetchall()
     for item in db_contents:
         # create an oject using certain columns from the database and print it
-        print(Product(item[1], item[2], item[3]))
+        list_of_products = Product(item[1], item[2], item[3])
+        print(list_of_products)
 
     # if no info in the database
     if not db_contents:

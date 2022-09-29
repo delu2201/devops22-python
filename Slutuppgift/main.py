@@ -1,5 +1,4 @@
-from multiprocessing.spawn import import_main_path
-from add_products import import_items
+from add_products import import_products
 from list_products import list_products
 
 
@@ -20,12 +19,12 @@ def main():
 4. Press 4 to exit. """)
         print()
         if choice == "1":
-            import_items()
+            import_products()
         if choice == "2":
             list_products()
             print()
         if choice == "3":
-            add_item()
+            #add_item()
             # item_bought = str(input("Add item to basket: "))    
             print()
             #delete(id)

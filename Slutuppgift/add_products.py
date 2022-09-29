@@ -2,7 +2,7 @@ import sqlite3
 from product import Product
 import csv
 
-def import_items():
+def import_products():
     connection = sqlite3.connect("products.db")
     cursor = connection.cursor()
     cursor.execute('''
