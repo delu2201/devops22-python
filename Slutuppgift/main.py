@@ -56,9 +56,9 @@ def save_order():
         csv_writer.writerow(["Time", "Order-Id", "articleNumber"])
         csv_writer.writerow(article_list)
     #Erase purchase after ordering.
-    article_list = None
-    cart = None
-
+    article_list.clear
+    cart.clear
+    print("Your order has been processed. Thank you for shopping.")
 # MAIN MENU
 def main():
     is_on = True
@@ -68,7 +68,8 @@ def main():
 2. List available items.
 3. Add item to cart. 
 4. Remove item from cart.
-5. Save order.""")
+5. Save order.\n
+Input your choice: """)
         print()
         if choice == "1":
             import_products()
