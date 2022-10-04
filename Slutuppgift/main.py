@@ -1,20 +1,18 @@
-from import_products import import_products
+from import_products import import_products, connection_to_db
 import sqlite3, csv, sys
 from datetime import datetime
 from product import Product
 from tabulate import tabulate
 from operator import itemgetter
+cart = []
+class Cart():
 
-MAIN_MENU_TEXT = """
-'-------------------------'
-'------- Main Menu -------'
-'-------------------------'
-"""
-def connection_to_db():
-    """Define connection to DB"""
-    connection = sqlite3.connect("products.db")
-    cursor = connection.cursor()
-    return connection, cursor
+    def __init__(self, articleNumber) -> None:
+        self.articleNumber = articleNumber
+
+    def __str__(self) -> str:
+        """Method for printing out an object"""
+        return f"Items stored in basket: {cart}"
 
 def list_products():
     """Listing available products in stock"""
@@ -34,57 +32,7 @@ def list_products():
         print('Start with uploading data or choose exit the program')
         print()
         connection.close()
-
-cart = []
-
-class Cart():
-
-    def __init__(self, articleNumber) -> None:
-        self.articleNumber = articleNumber
-
-    def __str__(self) -> str:
-        """Method for printing out an object"""
-        return f"Items stored in basket: {cart}"
-        
-
-def save_order():
-    """Saving order to DB and clearing cart after processing"""
-    article_list = []
-    #Iterate cart-object-list, pull articleNumber. Insert time and order-Id.
-    for _, val in enumerate (cart):
-        article_list.append(val.articleNumber)
-
-    article_list.insert(0,datetime.now().strftime("%Y/%m/%d/ %H:%M:%S"))
-    #Write order to file. 
-    with open("orders.csv", "a", newline='') as file:
-        csv_writer = csv.writer(file, delimiter=",")
-        csv_writer.writerow(["Time", "Order-Id", "articleNumber"])
-        csv_writer.writerow(article_list)
-    #Erase purchase after ordering.
-    article_list.clear()
-    cart.clear()
-    print("Your order has been processed. Thank you for shopping.")
-
-
-def view_cart():
-    """ Function to view items in cart and display total cost"""
-    connection, cursor = connection_to_db()
-    lst_cart = [] 
-    for _, val in enumerate(cart):
-        cursor.execute("SELECT articleNumber, name, price from products WHERE articleNumber=?", (val.articleNumber,))
-        lst_cart.append(cursor.fetchone())
-    
-    connection.close()
-    try:
-        print(tabulate(lst_cart, headers=["Article", "Name", "Price"]))
-    except UnboundLocalError:
-        print(f"Your cart seems to be empty. Add items to cart before viewing.")
-        main()
-    #Get index where price is stored and calc sum of cart.
-    price = list((map(itemgetter(2), lst_cart)))
-    print()
-    print(f"Total sum of your cart: {sum(price)}")
-
+     
 def add_item():
     """Function to add article to cart"""
     
@@ -109,6 +57,26 @@ def add_item():
             print("Please input a number.")
         except Exception as e:
             print(e)
+
+def view_cart():
+    """ Function to view items in cart and display total cost"""
+    connection, cursor = connection_to_db()
+    lst_cart = [] 
+    for _, val in enumerate(cart):
+        cursor.execute("SELECT articleNumber, name, price from products WHERE articleNumber=?", (val.articleNumber,))
+        lst_cart.append(cursor.fetchone())
+    
+    connection.close()
+    try:
+        print(tabulate(lst_cart, headers=["Article", "Name", "Price"]))
+    except UnboundLocalError:
+        print(f"Your cart seems to be empty. Add items to cart before viewing.")
+        main()
+    #Get index where price is stored and calc sum of cart.
+    price = list((map(itemgetter(2), lst_cart)))
+    print()
+    print(f"Total sum of your cart: {sum(price)}")
+
 def remove_item():
     """Fuction to remove item from cart"""
     try:
@@ -120,6 +88,23 @@ def remove_item():
             print("Please input a number.")
     except Exception as e:
         print(e)
+
+def save_order():
+    """Saving order to DB and clearing cart after processing"""
+    article_list = []
+    #Iterate cart-object-list, pull articleNumber. Insert time and order-Id.
+    for _, val in enumerate (cart):
+        article_list.append(val.articleNumber)
+
+    article_list.insert(0,datetime.now().strftime("%Y/%m/%d/ %H:%M:%S"))
+    #Write order to file. 
+    with open("orders.csv", "a", newline='') as file:
+        csv_writer = csv.writer(file, delimiter=",")
+        csv_writer.writerow(article_list)
+    #Erase purchase after ordering.
+    article_list.clear()
+    cart.clear()
+    print("Your order has been processed. Thank you for shopping.")
 
 def quit_program():
     """Quit program, check that cart is empty before quitting"""
@@ -134,6 +119,12 @@ def quit_program():
             if q == "n":
                 main()
 
+
+MAIN_MENU_TEXT = """
+'-------------------------'
+'------- Main Menu -------'
+'-------------------------'
+"""
 # MAIN MENU
 def main():
     is_on = True
