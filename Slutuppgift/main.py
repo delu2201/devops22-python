@@ -111,10 +111,15 @@ def add_item():
             print(e)
 def remove_item():
     """Fuction to remove item from cart"""
-    user_input = int(input("Input article number to remove from cart: "))
-    for i, val in enumerate(cart):
-        if val.articleNumber == user_input:
-            del cart[i]             
+    try:
+        user_input = int(input("Input article number to remove from cart: "))
+        for i, val in enumerate(cart):
+            if val.articleNumber == user_input:
+                del cart[i]
+    except ValueError:
+            print("Please input a number.")
+    except Exception as e:
+        print(e)
 
 def quit_program():
     """Quit program, check that cart is empty before quitting"""
