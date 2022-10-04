@@ -87,15 +87,28 @@ def view_cart():
 
 def add_item():
     """Function to add article to cart"""
+    
+    connection, cursor = connection_to_db()
+    cursor.execute("SELECT articleNumber from products")
+    lst_of_articleNumber = [i[0] for i in cursor.fetchall()]
+    print(lst_of_articleNumber)
+
     article_to_add = "y"
     while article_to_add == "y":
-        user_input = int(input("Input article number to add to cart: "))
-        cart.append(Cart(user_input))
-        print(f"Article number: {user_input} has been added to cart.")
-        article_to_add = input("Would you like to add another article? y/n: ").strip().lower()
-        if article_to_add != "y" and article_to_add != "n":
-            article_to_add = input("please input y or n: ").strip().lower()
-
+        try:
+            user_input = int(input("Input article number to add to cart: "))
+            if user_input not in lst_of_articleNumber:
+                print("Article number is not available.")
+            else: 
+                cart.append(Cart(user_input))
+                print(f"Article number: {user_input} has been added to cart.")
+                article_to_add = input("Would you like to add another article? y/n: ").strip().lower()
+            if article_to_add != "y" and article_to_add != "n":
+                article_to_add = input("please input y or n: ").strip().lower()
+        except ValueError:
+            print("Please input a number.")
+        except Exception as e:
+            print(e)
 def remove_item():
     """Fuction to remove item from cart"""
     user_input = int(input("Input article number to remove from cart: "))
