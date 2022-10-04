@@ -4,7 +4,6 @@ from datetime import datetime
 from product import Product
 from tabulate import tabulate
 from operator import itemgetter
-from collections import Counter
 #cart = []
 class Cart():
     cart = []
