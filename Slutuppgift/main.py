@@ -3,22 +3,29 @@ import sqlite3, csv, sys
 from datetime import datetime
 from product import Product
 from tabulate import tabulate
+from operator import itemgetter
 
 MAIN_MENU_TEXT = """
 '-------------------------'
 '------- Main Menu -------'
 '-------------------------'
 """
-
-def list_products():
+def connection_to_db():
+    """Define connection to DB"""
     connection = sqlite3.connect("products.db")
     cursor = connection.cursor()
+    return connection, cursor
+
+def list_products():
+    """Listing available products in stock"""
+    connection, cursor = connection_to_db()
     cursor.execute("SELECT * from products")
     db_contents = cursor.fetchall()
     # create an oject using certain columns from the database and print it
     for item in db_contents:
         list_of_products = Product(item[1], item[2], item[3])
         print(list_of_products)
+    connection.close()
 
     # if DB is empty.
     if not db_contents:
@@ -41,6 +48,7 @@ class Cart():
         
 
 def save_order():
+    """Saving order to DB and clearing cart after processing"""
     article_list = []
     #Iterate cart-object-list, pull articleNumber. Insert time and order-Id.
     for _, val in enumerate (cart):
@@ -59,19 +67,26 @@ def save_order():
 
 
 def view_cart():
-    connection = sqlite3.connect("products.db")
-    cursor = connection.cursor()
+    """ Function to view items in cart and display total cost"""
+    connection, cursor = connection_to_db()
     lst_cart = [] 
     for _, val in enumerate(cart):
         cursor.execute("SELECT articleNumber, name, price from products WHERE articleNumber=?", (val.articleNumber,))
         lst_cart.append(cursor.fetchone())
+    
+    connection.close()
     try:
         print(tabulate(lst_cart, headers=["Article", "Name", "Price"]))
     except UnboundLocalError:
         print(f"Your cart seems to be empty. Add items to cart before viewing.")
         main()
+    #Get index where price is stored and calc sum of cart.
+    price = list((map(itemgetter(2), lst_cart)))
+    print()
+    print(f"Total sum of your cart: {sum(price)}")
 
 def add_item():
+    """Function to add article to cart"""
     article_to_add = "y"
     while article_to_add == "y":
         user_input = int(input("Input article number to add to cart: "))
@@ -82,12 +97,14 @@ def add_item():
             article_to_add = input("please input y or n: ").strip().lower()
 
 def remove_item():
+    """Fuction to remove item from cart"""
     user_input = int(input("Input article number to remove from cart: "))
     for i, val in enumerate(cart):
         if val.articleNumber == user_input:
             del cart[i]             
 
 def quit_program():
+    """Quit program, check that cart is empty before quitting"""
     if not cart:
         sys.exit(0)
     else:
