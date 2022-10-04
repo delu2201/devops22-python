@@ -8,8 +8,7 @@ Indata:
  - Fil med 10 matvaror. JSON / CSV
 	- importera till databas.
 	- Kontroll / felhantering filepath.
- 
- - Input för att addera en vara till varukorg.
+
   
  - Input för att ta bort en vara från varukorg.
  - slutföra beställning så att varukorgen töms?  
@@ -24,6 +23,7 @@ Indata:
  
  Klasser: 
  Varukorgen 
+ Produkter
  
  
  Funktioner: 
@@ -32,15 +32,27 @@ Indata:
 	- importera dessa med CSV-reader till databasen. 
 	
 2. Lista valbara varor från databas. 
+	Bör vara någorlunda klar 28/9. 
 
 
 3. Addera matvaror till varukorg.
 	- Måste korgen (Classobject) ha samtliga items? eller sparas som lista/tuple/dict? 
-	- lista möjliga varor eller be om en sträng från användaren? 
+	- lista möjliga varor eller be om en sträng från användaren?
+	
+	- Möjlig lösning: 
+		- Meny för att först lista tillgängliga items.
+		- ta in input från användaren vad hen vill lägga till (Sträng)
+		- jämför denna med vad som finns tillgängligt i "store". 
+			- om ja, addera .append to list.
+			- om nej, be om ytterliggaare input / 
 	
 	
 Länkar använda: 
 Tabulate: https://stackoverflow.com/questions/9535954/printing-lists-as-tabular-data
+Remove Object: https://stackoverflow.com/questions/52565505/simplest-way-to-delete-object-from-list-of-objects
+Connection to DB as function: https://stackoverflow.com/questions/29246118/python-database-connection-in-function
+iterate through SQL result to make list: https://stackoverflow.com/questions/14835852/convert-sql-result-to-list-python
+
 	
 	
  

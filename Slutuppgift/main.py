@@ -4,6 +4,7 @@ from datetime import datetime
 from product import Product
 from tabulate import tabulate
 from operator import itemgetter
+from collections import Counter
 cart = []
 class Cart():
 
@@ -39,7 +40,6 @@ def add_item():
     connection, cursor = connection_to_db()
     cursor.execute("SELECT articleNumber from products")
     lst_of_articleNumber = [i[0] for i in cursor.fetchall()]
-    print(lst_of_articleNumber)
 
     article_to_add = "y"
     while article_to_add == "y":
@@ -91,20 +91,30 @@ def remove_item():
 
 def save_order():
     """Saving order to DB and clearing cart after processing"""
-    article_list = []
-    #Iterate cart-object-list, pull articleNumber. Insert time and order-Id.
-    for _, val in enumerate (cart):
-        article_list.append(val.articleNumber)
-
-    article_list.insert(0,datetime.now().strftime("%Y/%m/%d/ %H:%M:%S"))
-    #Write order to file. 
-    with open("orders.csv", "a", newline='') as file:
-        csv_writer = csv.writer(file, delimiter=",")
-        csv_writer.writerow(article_list)
-    #Erase purchase after ordering.
-    article_list.clear()
-    cart.clear()
-    print("Your order has been processed. Thank you for shopping.")
+    view_cart()
+    user_input = "g"
+    while user_input != "y" and user_input != "n":
+        user_input = input('would you like to order the above items?\nEnter "y" to order or "n" to go back to main menu. y/n? ').strip().lower()
+        if user_input == "n":
+            main()
+        elif user_input == "y":
+            article_list = []
+            #Iterate cart-object-list, pull articleNumber. Insert time and order-Id.
+            for _, val in enumerate (cart):
+                article_list.append(val.articleNumber)
+            res = Counter(article_list)
+            print(res)
+            article_list.insert(0,datetime.now().strftime("%Y/%m/%d/ %H:%M:%S"))
+            #Write order to file. 
+            with open("orders.csv", "a") as file:
+                csv_writer = csv.writer(file, delimiter=",")
+                for key, value in res.items():
+                    csv_writer.writerow([key, value])
+                #csv_writer.writerow(res)
+            #Erase purchase after ordering.
+            article_list.clear()
+            cart.clear()
+            print("Your order has been processed. Thank you for shopping.")
 
 def quit_program():
     """Quit program, check that cart is empty before quitting"""
