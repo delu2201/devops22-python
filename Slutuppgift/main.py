@@ -81,6 +81,23 @@ def add_item():
         if article_to_add != "y" and article_to_add != "n":
             article_to_add = input("please input y or n: ").strip().lower()
 
+def remove_item():
+    user_input = int(input("Input article number to remove from cart: "))
+    for i, val in enumerate(cart):
+        if val.articleNumber == user_input:
+            del cart[i]             
+
+def quit_program():
+    if not cart:
+        sys.exit(0)
+    else:
+        q = "g"
+        while q != "y" and q != "n":
+            q = input("Items in cart, still quit? y/n: ").strip().lower()
+            if q == "y":
+                sys.exit(0)
+            if q == "n":
+                main()
 
 # MAIN MENU
 def main():
@@ -103,25 +120,15 @@ Input your choice: """)
             print()
         if choice == "3":
             add_item()
-            # article_to_add = "y"
-            # while article_to_add == "y":
-                # user_input = int(input("Input article number to add to cart: "))
-                # cart.append(Cart(user_input))
-                # print(f"Article number: {user_input} has been added to cart.")
-                # article_to_add = input("Would you like to add another article? y/n: ").strip().lower()
-                # if article_to_add != "y" and article_to_add != "n":
-                #     article_to_add = input("please input y or n: ").strip().lower()
         if choice == "4":
             view_cart()
         if choice == "5":
-                user_input = int(input("Input article number to remove from cart: "))
-                for i, val in enumerate(cart):
-                    if val.articleNumber == user_input:
-                        del cart[i]                
+            remove_item()                   
         if choice == "6":
             save_order()
         if choice == "7":
-            sys.exit(0)
+            quit_program()
+            
 
     dennis = cart
 if __name__ == "__main__":
