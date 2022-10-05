@@ -62,7 +62,7 @@ def quit_program():
 
 MAIN_MENU_TEXT = """
 '-------------------------'
-'------- Main Menu -------'
+'----- "Express shop" ----'
 '-------------------------'
 """
 # MAIN MENU
