@@ -1,5 +1,6 @@
 Kurs: Programmering och systemering.
 Vald slutuppgift: "Mataffären"
+Datum: 2022-10-05
 
 Programmet kräver följande filer för att köras: 
     - main.py
