@@ -67,7 +67,7 @@ class Cart():
         article_remove = "y"
         while article_remove == "y":
             try:
-                if not Cart.cart:
+                if not self.cart:
                     print()
                     print("Your cart is empty. No items to remove.")
                     break
