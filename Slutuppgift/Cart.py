@@ -5,6 +5,7 @@ from import_products import connection_to_db
 class Cart():
     cart = []
     def __init__(self, articleNumber) -> None:
+        """Method for instantiating an object"""
         self.articleNumber = articleNumber
 
     def __str__(self) -> str:
@@ -22,18 +23,20 @@ class Cart():
             article_to_add = "y"
             while article_to_add == "y":
                 try:
-                    user_input = int(input("Input article number to add to cart: "))
+                    user_input = int(input("Enter article number to add to cart: "))
                     if user_input not in lst_of_articleNumber:
                         print("Article number is not available.")
                     else: 
                         self.cart.append(user_input)
+                        print()
+                        self.view_cart()
                         print(f"Article number: {user_input} has been added to cart.")
-                        print(self.cart)
+                        print()
                         article_to_add = input("Would you like to add another article? y/n: ").strip().lower()
                     if article_to_add != "y" and article_to_add != "n":
-                        article_to_add = input("please input y or n: ").strip().lower()
+                        article_to_add = input("please enter y or n: ").strip().lower()
                 except ValueError:
-                    print("Please input a number.")
+                    print("Please enter a number.")
                 except Exception as e:
                     print(e)
             connection.close()
@@ -59,13 +62,28 @@ class Cart():
 
     @classmethod
     def remove_item(self):
-        """Fuction to remove item from cart"""
-        try:
-            user_input = int(input("Input article number to remove from cart: "))
-            for _, val in enumerate(self.cart):
-                if val == user_input:
-                    self.cart.remove(val)
-        except ValueError:
-                print("Please input a number.")
-        except Exception as e:
-            print(e)
+        """Function to remove item from cart"""
+        self.view_cart()
+        article_remove = "y"
+        while article_remove == "y":
+            try:
+                if not Cart.cart:
+                    print()
+                    print("Your cart is empty. No items to remove.")
+                    break
+                else:
+                    user_input = int(input("Enter article number to remove from cart: "))
+                    if user_input not in self.cart:
+                        print("The article number is not present in cart.")
+                    else:
+                        for val in self.cart:
+                            if val == user_input:
+                                self.cart.remove(val)
+                                self.view_cart()
+                                article_remove = input("Would you like to remove another item? y/n: ").strip().lower()
+                    if article_remove != "y" and article_remove!= "n":
+                        article_remove = input("please enter y or n: ").strip().lower()
+            except ValueError:
+                print("Please enter a number.")
+            except Exception as e:
+                print(e)
