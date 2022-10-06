@@ -20,6 +20,7 @@ def import_products():
                     Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL                  
                 )
                 ''')
+    connection.close()
     #Check if file with products exist.
     path = input("Input path to file with products: ")
     while os.path.exists(path) == False:
@@ -27,6 +28,7 @@ def import_products():
 
     #Import products to DB.
     try:
+        connection, cursor = connection_to_db()
         with open(path, "r") as user_file:
             data = csv.reader(user_file)
             # skipping the first line with the column headers
@@ -45,5 +47,3 @@ def import_products():
         with open("orders.csv", "w", newline='') as file:
             csv_writer = csv.writer(file, delimiter=",")
             csv_writer.writerow(["Time for order", "Order ID", "articleNumbers..."])
-
-    

@@ -91,7 +91,6 @@ Input your choice: """)
             import_products()
         if choice == "2":
             list_products()
-            print()
         if choice == "3":
             Cart.add_item()
         if choice == "4":
@@ -105,4 +104,3 @@ Input your choice: """)
             
 if __name__ == "__main__":
     main()
-
