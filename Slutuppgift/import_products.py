@@ -1,5 +1,5 @@
 import sqlite3, csv, os
-
+#############################################
 def connection_to_db():
     """Define connection to DB"""
     connection = sqlite3.connect("products.db")
@@ -44,6 +44,6 @@ def import_products():
     if os.path.exists("orders.csv") == False:
         with open("orders.csv", "w", newline='') as file:
             csv_writer = csv.writer(file, delimiter=",")
-            csv_writer.writerow(["Time", "Order-Id", "articleNumber"])
+            csv_writer.writerow(["Time for order", "Order ID", "articleNumbers..."])
 
     

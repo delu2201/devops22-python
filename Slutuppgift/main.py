@@ -1,9 +1,10 @@
 from import_products import import_products, connection_to_db
-import sqlite3, csv, sys, os
+import csv, sys, os
 from cart import Cart
 from datetime import datetime
 from product import Product
-
+###########################################################
+OrderId = 1
 def list_products():
     """Listing available products in stock"""
     if os.path.exists("products.db") == False:
@@ -19,39 +20,46 @@ def list_products():
         connection.close()
      
 def save_order():
-    order_Id = 1
     """Saving order to DB and clearing cart after processing"""
-    Cart.view_cart()
-    user_input = "g"
-    while user_input != "y" and user_input != "n":
-        user_input = input('would you like to order the above items?\nEnter "y" to order or "n" to go back to main menu. y/n? ').strip().lower()
-        if user_input == "n":
-            main()
-        elif user_input == "y":
-            article_list = []
-            #Iterate cart-object-list, pull articleNumber.Sort/Insert time and OrderId.
-            for i in range(len(Cart.cart)):
-                article_list.append(Cart.cart[i])
+    if not Cart.cart:
+        print("The cart is empty, please add items before saving order.")
+    else:
+        Cart.view_cart()
+        user_input = "g"
+        while user_input != "y" and user_input != "n":
+            user_input = input('would you like to order the above items?\nEnter "y" to order or "n" to go back to main menu. y/n? ').strip().lower()
+            if user_input == "n":
+                main()
+            elif user_input == "y":
+                article_list = []
+                #Iterate cart-object-list, pull articleNumber.Sort/Insert time and OrderId.
+                for i in range(len(Cart.cart)):
+                    article_list.append(Cart.cart[i])
 
-            article_list.sort()
-            article_list.insert(0,datetime.now().strftime("%Y/%m/%d/ %H:%M:%S"))
-            article_list.insert(1,"OrderId: "+str(order_Id))
-            #Write order to file.
-            with open("orders.csv", "a") as file:
-                csv_writer = csv.writer(file, delimiter=",")
-                csv_writer.writerow(article_list)
-            #Erase purchase after ordering.
-            article_list.clear()
-            Cart.cart.clear()
-            order_Id +=1
-            print("Your order has been processed. Thank you for shopping.")
+                article_list.sort()
+                article_list.insert(0,datetime.now().strftime("%Y/%m/%d/ %H:%M:%S"))
+                article_list.insert(1,"OrderId:" +str(OrderId))
+                #Write order to file.
+                with open("orders.csv", "a") as file:
+                    csv_writer = csv.writer(file, delimiter=",")
+                    csv_writer.writerow(article_list)
+                #Erase purchase after ordering.
+                article_list.clear()
+                Cart.cart.clear()
+                increment()
+                print("\nYour order has been processed. Thank you for shopping.")
+
+def increment():
+    """Increment OrderId when saving orders"""
+    global OrderId
+    OrderId +=1
 
 def quit_program():
     """Quit program, check that cart is empty before quitting"""
     if not Cart.cart:
         sys.exit(0)
     else:
-        q = "g" #Placeholder
+        q = "g"
         while q != "y" and q != "n":
             q = input("You have a ongoing order. Do you still want to quit? y/n: ").strip().lower()
             if q == "y":

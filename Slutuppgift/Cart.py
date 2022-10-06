@@ -2,6 +2,7 @@ from product import Product
 from tabulate import tabulate
 from operator import itemgetter
 from import_products import connection_to_db
+###############################################
 class Cart():
     cart = []
     def __init__(self, articleNumber) -> None:
@@ -19,6 +20,7 @@ class Cart():
             connection, cursor = connection_to_db()
             cursor.execute("SELECT articleNumber from products")
             lst_of_articleNumber = [i[0] for i in cursor.fetchall()]
+            connection.close()
 
             article_to_add = "y"
             while article_to_add == "y":
@@ -39,7 +41,7 @@ class Cart():
                     print("Please enter a number.")
                 except Exception as e:
                     print(e)
-            connection.close()
+            
 
     @classmethod
     def view_cart(self):
