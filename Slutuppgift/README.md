@@ -2,15 +2,26 @@ Kurs: Programmering och systemering.
 Vald slutuppgift: "Mataffären"
 Datum: 2022-10-05
 
+**Beskrivning:**
+Programmet är en väldigt liten och enkel "e-shop" gjord som ett terminalprogram.
+
 Programmet kräver följande filer för att köras: 
     - main.py
     - cart.py
     - products.py
     - import_products.py
+
+Samtliga filer måste ligga i samma mapp. Användare som kör programmet från en terminal måste stå i samma mapp som filerna för att programmet skall köras som tänkt.
   
 Programmet skapar följande filer under körning:
     - products.db
     - orders.csv
+
+Filerna skapas i samma mapp som användaren befinner sig i.
+
+Medföljande filer med testdata att importera till databas: 
+items.csv
+items2.csv
 
 main.py
 Programmet körs från denna fil samt innehåller vissa funktioner som ej tillhör klasser, men som krävs för programmets funktionalitet.
@@ -42,19 +53,30 @@ Beskrivning av menyval:
 7. Quit shopping.
     - Avslutar programmet direkt om varukorgen är tom. Om det finns produkter i varukorgen frågas användaren om han vill gå avsluta programmet eller fortsätta.
 
+Funktioner: 
+- "list_products"
+  - Listar valbara produkter ur sortimentet genom att hämta dessa från databas och skapa produktobjekt som sedan skrivs ut till terminal.
+
+- "save_order".
+  - sparar varukorgen till kommaseparerad fil (CSV), adderar datum, tid och ordernummer innan skrivning till fil.
+
+- "increment"
+  - Adderar global variabel order-Id +1.
+
+- "Quit_program"
+  - Avslutar programmet efter körning.
+
 cart.py
 Används av klassen "Cart" som håller alla produkter i användarens varukorg samt följande klassmetoder för att hantera varukorgen:
-- Funktion "add_item"
+- "add_item"
     - Funktionen hämtar samtliga produkter från databasen och jämför detta med kundens val för att garantera korrekta val. 
-      Hjälp till funktionen har hämtats från: https://stackoverflow.com/questions/14835852/convert-sql-result-to-list-python
 
-- Funktion "view_cart"
+- "view_cart"
     - Funktionen hämtar information om produkterna i kundens varukorg från databasen samt presenterar dessa grafiskt och räknar ut totalsumma.
-      Hjälp till funktionen har hämtats från: https://stackoverflow.com/questions/9535954/printing-lists-as-tabular-data
 
-- Funktion "remove_item"
+- "remove_item"
     - Funktionen låter användaren ta bort produkter ur varukorgen.
-      Viss inspiration har hämtats från: https://stackoverflow.com/questions/52565505/simplest-way-to-delete-object-from-list-of-objects 
+      Viss inspiration har hämtats från: 
 
 products.py
 
@@ -68,11 +90,11 @@ import_products.py
 Innehåller funktioner för att hantera skapande av databas, import av produkter samt skapande av fil för lagring av ordrar.
 
 Funktioner:
-- connection_to_DB
+- "connection_to_DB"
     - För att minska skrivning av kod vid uppkoppling till databas.
     - Kod tagen från: https://stackoverflow.com/questions/29246118/python-database-connection-in-function
 
-- import_products.py
+- "import_products.py"
     - Hanterar skapande av databas, import av produkter från csv-fil samt skapande av fil för lagring av ordrar.
 
 
@@ -88,5 +110,12 @@ Databaser / filer för lagring
     2022/10/05/ 12:38:51,OrderId: 1,5,6
 
 
+Källhänvisning: 
+Cart.Py 
+Rad 26: https://stackoverflow.com/questions/14835852/convert-sql-result-to-list-python
 
+Rad 66: https://stackoverflow.com/questions/9535954/printing-lists-as-tabular-data
 
+Import_products:
+Rad 3-7: https://stackoverflow.com/questions/29246118/python-database-connection-in-function
+ 
